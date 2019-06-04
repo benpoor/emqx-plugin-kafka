@@ -48,12 +48,12 @@ load(Env) ->
   emqx:hook('message.acked', fun ?MODULE:on_message_acked/4, [Env]),
   io:format("load completed~n", []).
 
-on_client_connected(ConnAck, Client = #mqtt_client{client_id = ClientId}, _Env) ->
+on_client_connected(ConnAck, Client = #{client_id = ClientId}, _Env) ->
   io:format("client ~s connected, connack: ~w~n", [ClientId, ConnAck]),
   ekaf_send(<<"connected">>, ClientId, {}, _Env),
   {ok, Client}.
 
-on_client_disconnected(Reason, _Client = #mqtt_client{client_id = ClientId}, _Env) ->
+on_client_disconnected(Reason, _Client = #{client_id = ClientId}, _Env) ->
   io:format("client ~s disconnected, reason: ~w~n", [ClientId, Reason]),
   ekaf_send(<<"disconnected">>, ClientId, {}, _Env),
   ok.
@@ -83,7 +83,7 @@ on_session_terminated(ClientId, Username, Reason, _Env) ->
   io:format("session(~s/~s) terminated: ~p.", [ClientId, Username, Reason]).
 
 %% transform message and return
-on_message_publish(Message = #mqtt_message{topic = <<"$SYS/", _/binary>>}, _Env) ->
+on_message_publish(Message = #{topic = <<"$SYS/", _/binary>>}, _Env) ->
   {ok, Message};
 
 on_message_publish(Message, _Env) ->
@@ -173,14 +173,14 @@ ekaf_send(Type, ClientId, {Topic, Opts}, _Env) ->
   ]),
   ekaf_send_sync(Json);
 ekaf_send(Type, _, Message, _Env) ->
-  Id = Message#mqtt_message.id,
-  From = Message#mqtt_message.from, %需要登录和不需要登录这里的返回值是不一样的
-  Topic = Message#mqtt_message.topic,
-  Payload = Message#mqtt_message.payload,
-  Qos = Message#mqtt_message.qos,
-  Dup = Message#mqtt_message.dup,
-  Retain = Message#mqtt_message.retain,
-  Timestamp = Message#mqtt_message.timestamp,
+  Id = Message.id,
+  From = Message.from, %需要登录和不需要登录这里的返回值是不一样的
+  Topic = Message.topic,
+  Payload = Message.payload,
+  Qos = Message.qos,
+  Dup = Message.dup,
+  Retain = Message.retain,
+  Timestamp = Message.timestamp,
 
   ClientId = c(From),
   Username = u(From),
