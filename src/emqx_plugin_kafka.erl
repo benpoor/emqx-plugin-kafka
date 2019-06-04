@@ -32,6 +32,17 @@
 
 -export([on_message_publish/2, on_message_delivered/4, on_message_acked/4]).
 
+-record(mqtt_message, {id,
+  from,
+  topic,
+  payload,
+  qos,
+  dup,
+  retain,
+  timestamp}).
+
+-type(mqtt_message() :: #mqtt_message{}).
+
 %% Called when the plugin application start
 load(Env) ->
   ekaf_init([Env]),
