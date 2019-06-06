@@ -18,6 +18,8 @@
 
 -emqx_plugin(?MODULE).
 
+-include("emqx_plugin_kafka.hrl").
+
 -export([ start/2
         , stop/1
         ]).

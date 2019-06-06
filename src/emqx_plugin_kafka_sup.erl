@@ -16,6 +16,8 @@
 
 -behaviour(supervisor).
 
+-include("emqx_plugin_kafka.hrl").
+
 -export([start_link/0]).
 
 -export([init/1]).
