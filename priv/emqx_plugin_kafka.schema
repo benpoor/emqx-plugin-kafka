@@ -1,32 +1,32 @@
 %%-*- mode: erlang -*-
 %% emqx_kafka_bridge config mapping
 
-{mapping, "kafka.bootstrap_broker_host", "emqx_kafka_bridge.broker", [
+{mapping, "kafka.bootstrap_broker_host", "emqx_plugin_kafka.broker", [
 {default, "localhost"},
 {datatype, string}
 ]}.
-{mapping, "kafka.bootstrap_broker_port", "emqx_kafka_bridge.broker", [
+{mapping, "kafka.bootstrap_broker_port", "emqx_plugin_kafka.broker", [
 {default, 9092},
 {datatype, integer}
 ]}.
 
-{mapping, "kafka.query_api_versions", "emqx_kafka_bridge.broker", [
+{mapping, "kafka.query_api_versions", "emqx_plugin_kafka.broker", [
 {default, true},
 {datatype, {enum, [true, false]}}
 ]}.
 
-{mapping, "kafka.reconnect_cool_down_seconds", "emqx_kafka_bridge.broker", [
+{mapping, "kafka.reconnect_cool_down_seconds", "emqx_plugin_kafka.broker", [
 {default, 10},
 {datatype, integer}
 ]}.
 
-{mapping, "kafka.producer_partition", "emqx_kafka_bridge.broker", [
+{mapping, "kafka.producer_partition", "emqx_plugin_kafka.broker", [
 {default, 1},
 {datatype, integer}
 ]}.
 
 {
-translation, "emqx_kafka_bridge.broker",
+translation, "emqx_plugin_kafka.broker",
 fun(Conf) ->
 KafkaBootstrapBrokerHost = cuttlefish:conf_get("kafka.bootstrap_broker_host", Conf),
 KafkaBootstrapBrokerPort = cuttlefish:conf_get("kafka.bootstrap_broker_port", Conf),
